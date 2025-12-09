@@ -39,9 +39,7 @@ fn main()
     println!("WILDCARD MASK: {}", u32_to_dotted(!cidr));
     println!("SUBNET ADDRESS: {}", u32_to_dotted(ip & cidr));
     println!("BROADCAST ADDRESS: {}", u32_to_dotted((ip & cidr) | (!cidr)));
-
-    //SUM COMPLICATED MUDDAFUCKERS BELLOW
-
+    
     println!("First usable host: {}", u32_to_dotted
         (
             match cidr.count_zeros()
