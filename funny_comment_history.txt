@@ -1,6 +1,0 @@
-(main.rs) refactor this shit or lose ball privilages - 25NOV25    
-(main.rs) this shit is now refactored - 26NOV25                   
-(main.rs) balls kept - 26NOV25 (later in the day)                 
-
-(main.rs) NOW MAKE IT USE BITWISE FUCKASSERY 26NOV25              
-(main.rs) is now bitwise fuckassery 27NOV25                       
