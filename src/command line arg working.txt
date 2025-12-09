@@ -1,0 +1,90 @@
+fn main() 
+{   
+    let user_input: Vec<u8> = std::env::args()
+        .nth(1)
+        .expect("No Provided input")
+        .split(['/','.'])
+        .map(|x| x
+            .parse::<u8>()
+            .expect("Invalid octet value")
+        ).collect();
+
+    let ip: u32 = u32::from_be_bytes(user_input[..4]
+        .try_into()
+        .expect("IP must have exactly 4 bytes"));
+    
+
+    let cidr: u32 = if user_input.len() == 5 {
+        assert!((1..=32).contains(&user_input[4]), "CIDR must be between 1 and 32");
+        (!0u32) << (32 - user_input[4])
+    } else 
+    {
+        assert!(user_input.len() == 4, "Too few arguments");
+        match user_input[0]
+        {
+            0..=127 => (!0u32) << 24,
+            128..=191 => (!0u32) << 16,
+            192..=223 => (!0u32) << 8,
+            _ => !0u32
+        }
+    };
+
+    let host_bits = cidr.count_zeros();
+
+    println!
+    (
+"--------------------------------------------------
+IP ADDRESS: {}
+SUBNET MASK: {}
+WILDCARD MASK: {}
+SUBNET ADDRESS: {}
+BROADCAST ADDRESS: {}
+First usable host: {}
+Last usable host: {}
+IP CLASS: {}
+Number of hosts: {}
+Number of usable hosts: {}
+--------------------------------------------------",
+        u32_to_dotted(ip),
+        u32_to_dotted(cidr),
+        u32_to_dotted(!cidr),
+        u32_to_dotted(ip & cidr),
+        u32_to_dotted((ip & cidr) | (!cidr)),
+        u32_to_dotted(
+            match host_bits
+                {
+                    0..=1 => ip & cidr,
+                    _ => (ip & cidr) + 1
+                }),
+        u32_to_dotted(
+            match host_bits
+                {
+                    0..=1 => (ip & cidr) | (!cidr),
+                    _ => ((ip & cidr) | (!cidr)) - 1
+                }),
+        match user_input[0]
+        {
+            0..=127 => "A",
+            128..=191 => "B",
+            192..=223 => "C",
+            224..=239 => "D",
+            _ => "E"
+        },
+        match host_bits
+        {
+            0..=1 => 0u32,
+            _ => {1u32 << host_bits}
+        },
+        match host_bits
+        {
+            0..=1 => 0u32,
+            _ => {(1u32 << host_bits).saturating_sub(2)}
+        }, 
+    )
+}
+
+fn u32_to_dotted (u: u32) -> String
+{
+    let b = u.to_be_bytes();
+    format!("{}.{}.{}.{}", b[0], b[1], b[2], b[3])
+}

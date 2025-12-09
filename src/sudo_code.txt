@@ -1,0 +1,55 @@
+IP ADDRESS FORMAT
+    w.x.y.z/A
+
+---------BASE VALUES---------
+subnetted_octet = (A % 3) + 1
+borrowed_bits = (⌊A / 8⌋) * 8
+
+subnet_id = match borrowed_bits
+{
+    0 => 0,
+    1 => 128,
+    2 => 192,
+    3 => 224,
+    4 => 240,
+    5 => 248,
+    6 => 252,
+    7 => 254,
+}
+
+subnet_size = match borrowed_bits
+{
+    0 => 0,
+    1 => 128,
+    2 => 64,
+    3 => 32,
+    4 => 16,
+    5 => 8,
+    6 => 4,
+    7 => 2,
+}
+
+---------LOGIC---------
+SUBNET MASK
+    Any octet before the subnetted_octet is equal to 255
+    The subnetted_octet is equal to subnet_id
+    Any octet after the subnetted_octet is equal to 0
+
+WILDCARD MASK
+    For every octet subtract the corresponding SUBNET ADDRESS value from 255   
+
+SUBNET ADDRESS
+    For every octet in the SUBNET MASK that is 255 the corresponding octet int SUBNET ADDRESS is equal to the IP ADDRESS
+    In the subnetted_octet subract subnet_size from 256 until less than corresponding IP ADDRESS octet
+    Any octet after the subnetted_octet is equal to 0
+
+BROADCAST ADDRESS
+    For every octet before subnetted_octet the corresponding octet is equal to IP ADDRESS octet
+    In the subnetted_octet add the subnet_size to the corresponding SUBNET ADDRESS and subtract 1
+    Any octet after the subnetted_octet is equal to 255
+
+NUMBER OF HOSTS
+    Take 2 to the power of 32 minus A
+
+NUMBER OF USABLE HOSTS
+    Subtract 2 from the NUMBER OF HOSTS
