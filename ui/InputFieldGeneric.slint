@@ -7,11 +7,16 @@ export component InputFieldGeneric inherits Window
     in property <int> guess-button-id;
     in property <int> show-button-id;
 
-    width: 700px;
-    height: 100px;
+    callback button-output(string, int);
+
+    width: 470px;
+    height: 90px;
 
     Rectangle 
     {
+        x: 0px;
+        y: 0px; 
+        
         background: black;
 
         Text 
@@ -19,15 +24,18 @@ export component InputFieldGeneric inherits Window
             x: 10px;
             y: 5px;
 
-            font-size: 30px;
-            font-weight: 2500;
+            font-size: 25px;
+            font-weight: 600;
+            
+            vertical-alignment: bottom;
+            
             text: name;
         }
         
-        LineEdit 
+        line-edit := LineEdit 
         {
             x: 10px;
-            y: 50px;
+            y: 35px;
 
             width: 200px;
             height: 35px;
@@ -38,23 +46,35 @@ export component InputFieldGeneric inherits Window
         Button 
         {
             x: 235px;
-            y: 50px;
+            y: 35px;
 
             width: 100px;
             height: 35px;
 
             text: "Check Guess";
+
+            clicked => 
+            {
+                root.button-output(line-edit.text, guess-button-id);
+                debug(line-edit.text + ", " + guess-button-id);
+            };
         }
 
         Button 
         {
             x: 360px;
-            y: 50px;
+            y: 35px;
 
             width: 100px;
             height: 35px;
 
             text: "Show Answer";
+
+            clicked => 
+            {
+                root.button-output(line-edit.text, show-button-id);
+                debug(line-edit.text + ", " + guess-button-id);
+            };
         }
     } 
 }

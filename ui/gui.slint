@@ -1,16 +1,73 @@
 import { InputFieldGeneric } from "InputFieldGeneric.slint";
+import { VerticalBox } from "std-widgets.slint";
 
-export component MainWindow inherits Window {
-    VerticalLayout {
-        width: 500px;
-        height: 700px;
-        
-        InputFieldGeneric {
-            name: "Subnet mask (255.255.255.0)";
-            default-text: "Gagagoo";
-            
-            guess-button-id: 2;
-            show-button-id: 3;
+export component MainWindow inherits Window {    
+    title: "Subnet Calculator";
+    
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    
+    Rectangle 
+    {
+        VerticalLayout
+        {
+            spacing: 0px;
+
+            InputFieldGeneric 
+            {
+                name: "Subnet mask (255.255.255.0)";
+                default-text: "Type subnet mask here";
+                
+                guess-button-id: 2;
+                show-button-id: 3;
+            }
+
+            InputFieldGeneric 
+            {
+                name: "Wildcard mask (255.255.255.0)";
+                default-text: "Type wildcard mask here";
+                
+                guess-button-id: 4;
+                show-button-id: 5;
+            }
+
+            InputFieldGeneric
+            {
+                name: "Subnet Address (192.168.1.0)";
+                default-text: "Type subnet address here";
+                
+                guess-button-id: 6;
+                show-button-id: 7;
+            }
+
+            InputFieldGeneric 
+            {
+                name: "Broadcast Address (192.168.1.255)";
+                default-text: "Type broadcast address here";
+                
+                guess-button-id: 8;
+                show-button-id: 9;
+            }
+
+            InputFieldGeneric 
+            {
+                name: "First Usable Host (192.168.1.1)";
+                default-text: "Type first usable host here";
+                
+                guess-button-id: 10;
+                show-button-id: 11;
+            }
+
+            InputFieldGeneric 
+            {
+                name: "Last Usable Host (192.168.1.254)";
+                default-text: "Type last usable host here";
+                
+                guess-button-id: 12;
+                show-button-id: 13;
+            }
         }
     }
 }
