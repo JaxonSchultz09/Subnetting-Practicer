@@ -1,0 +1,16 @@
+import { InputFieldGeneric } from "InputFieldGeneric.slint";
+
+export component MainWindow inherits Window {
+    VerticalLayout {
+        width: 500px;
+        height: 700px;
+        
+        InputFieldGeneric {
+            name: "Subnet mask (255.255.255.0)";
+            default-text: "Gagagoo";
+            
+            guess-button-id: 2;
+            show-button-id: 3;
+        }
+    }
+}

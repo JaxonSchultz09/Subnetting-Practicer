@@ -1,4 +1,6 @@
-fn main() 
+slint::include_modules!();
+
+fn main()
 {   
     let user_input: Vec<u8> = std::env::args()
         .nth(1)
@@ -11,7 +13,8 @@ fn main()
 
     let ip: u32 = u32::from_be_bytes(user_input[..4]
         .try_into()
-        .expect("IP must have exactly 4 bytes"));
+        .expect("IP must have exactly 4 bytes")
+    );
 
     let cidr: u32 = match user_input.len() == 5 {
         true => 
@@ -39,7 +42,7 @@ fn main()
     println!("WILDCARD MASK: {}", u32_to_dotted(!cidr));
     println!("SUBNET ADDRESS: {}", u32_to_dotted(ip & cidr));
     println!("BROADCAST ADDRESS: {}", u32_to_dotted((ip & cidr) | (!cidr)));
-    
+
     println!("First usable host: {}", u32_to_dotted
         (
             match cidr.count_zeros()
@@ -47,7 +50,8 @@ fn main()
                 0..=1 => ip & cidr,
                 _ => (ip & cidr) + 1
             }
-        ));
+        )
+    );
 
     println!("Last usable host: {}", u32_to_dotted(
         match cidr.count_zeros()
@@ -79,6 +83,8 @@ fn main()
     });
 
     println!("--------------------------------------------------");
+
+    MainWindow::new().unwrap().run().unwrap();
 }
 
 fn u32_to_dotted (u: u32) -> String

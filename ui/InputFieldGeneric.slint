@@ -1,0 +1,60 @@
+import { LineEdit, Button } from "std-widgets.slint";
+export component InputFieldGeneric inherits Window
+{
+    in property <string> name;
+    in property <string> default-text;
+
+    in property <int> guess-button-id;
+    in property <int> show-button-id;
+
+    width: 700px;
+    height: 100px;
+
+    Rectangle 
+    {
+        background: black;
+
+        Text 
+        {
+            x: 10px;
+            y: 5px;
+
+            font-size: 30px;
+            font-weight: 2500;
+            text: name;
+        }
+        
+        LineEdit 
+        {
+            x: 10px;
+            y: 50px;
+
+            width: 200px;
+            height: 35px;
+            
+            placeholder-text: default-text;
+        }
+        
+        Button 
+        {
+            x: 235px;
+            y: 50px;
+
+            width: 100px;
+            height: 35px;
+
+            text: "Check Guess";
+        }
+
+        Button 
+        {
+            x: 360px;
+            y: 50px;
+
+            width: 100px;
+            height: 35px;
+
+            text: "Show Answer";
+        }
+    } 
+}
