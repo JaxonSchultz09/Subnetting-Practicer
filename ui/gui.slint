@@ -1,73 +1,247 @@
 import { InputFieldGeneric } from "InputFieldGeneric.slint";
-import { VerticalBox } from "std-widgets.slint";
+import { IPClassButtons } from "IPClassButtons.slint";
+import { VerticalBox, LineEdit, Button, TextEdit } from "std-widgets.slint";
 
-export component MainWindow inherits Window {    
-    title: "Subnet Calculator";
-    
-    padding-left: 0px;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    
-    Rectangle 
+component IPInput
+{
+    in-out property <string> ip_string;  
+
+    in property <int> randomize-button-id;
+    in property <int> show-all-button-id;
+
+    callback button-id(int);
+    callback edited-string(string);
+
+    width: 470px;
+    height: 90px;
+
+    Text 
     {
-        VerticalLayout
+        x: 10px;
+        y: 5px;
+
+        font-size: 25px;
+        font-weight: 600;
+        
+        vertical-alignment: bottom;
+        
+        text: "IP Input (192.168.1.10)";
+    }
+    
+    text-edit := TextEdit
+    {
+        x: 10px;
+        y: 35px;
+
+        width: 200px;
+        height: 38px;
+        
+        placeholder-text: "Type ip here";
+
+        text <=> ip_string;
+
+        key-pressed(event) => 
         {
-            spacing: 0px;
-
-            InputFieldGeneric 
+            if (event.text == Key.Backspace ||
+                event.text == Key.LeftArrow ||
+                event.text == Key.RightArrow) 
             {
-                name: "Subnet mask (255.255.255.0)";
-                default-text: "Type subnet mask here";
-                
-                guess-button-id: 2;
-                show-button-id: 3;
+                return reject; 
             }
 
-            InputFieldGeneric 
+            if ((event.text >= "0" && event.text <= "9") ||
+                event.text == "." || event.text == "/")
             {
-                name: "Wildcard mask (255.255.255.0)";
-                default-text: "Type wildcard mask here";
-                
-                guess-button-id: 4;
-                show-button-id: 5;
+                root.ip_string = text-edit.text;
+                return reject; 
             }
 
-            InputFieldGeneric
-            {
-                name: "Subnet Address (192.168.1.0)";
-                default-text: "Type subnet address here";
-                
-                guess-button-id: 6;
-                show-button-id: 7;
-            }
+            accept;
+        }
+    }
+    
+    Button
+    {
+        x: 235px;
+        y: 38px;
 
-            InputFieldGeneric 
-            {
-                name: "Broadcast Address (192.168.1.255)";
-                default-text: "Type broadcast address here";
-                
-                guess-button-id: 8;
-                show-button-id: 9;
-            }
+        width: 100px;
+        height: 35px;
 
-            InputFieldGeneric 
-            {
-                name: "First Usable Host (192.168.1.1)";
-                default-text: "Type first usable host here";
-                
-                guess-button-id: 10;
-                show-button-id: 11;
-            }
+        text: "Randomize";
 
-            InputFieldGeneric 
-            {
-                name: "Last Usable Host (192.168.1.254)";
-                default-text: "Type last usable host here";
-                
-                guess-button-id: 12;
-                show-button-id: 13;
-            }
+        clicked => 
+        {
+            root.button-id(0);
+        };
+    }
+
+    Button 
+    {
+        x: 360px;
+        y: 38px;
+
+        width: 100px;
+        height: 35px;
+
+        text: "Show All";
+
+        clicked => 
+        {
+            root.button-id(1);
+        };
+    }
+}
+component IPClass 
+{   
+    width: 470px;
+    height: 90px;
+
+    in-out property <string> button_text;
+
+    callback button-id(int);
+
+    Text 
+    {
+        x: 10px;
+        y: 5px;
+
+        font-size: 25px;
+        font-weight: 600;
+        
+        vertical-alignment: bottom;
+        
+        text: "IP Class";
+    }
+
+    IPClassButtons 
+    {
+        button-id(button_id) => { root.button-id(button_id) };
+        
+    }
+
+    Rectangle {
+        x: 260px;
+        y: 35px;
+
+        width: 200px;
+        height: 35px;
+
+        background: black;
+        border-radius: 5px;
+        Text 
+        {
+            font-size: 35px;
+            font-weight: 5000;
+            color: white;
+
+            text: button_text;
+        }
+    }
+}
+export component MainWindow inherits Window {    
+    title: "IPv4 Subnet Calculator";    
+
+    callback button-id(button_id: int);
+
+    in-out property <string> ip_string;
+    in-out property <string> subnet_mask_string;
+    in-out property <string> wildcard_string;
+    in-out property <string> subnet_address_string;
+    in-out property <string> broadcast_address_string;
+    in-out property <string> first_host_string;
+    in-out property <string> last_host_string;
+    in-out property <string> button_text;
+
+    
+    VerticalLayout
+    {
+        spacing: 0px;
+
+        IPInput
+        {   
+            randomize-button-id: 0;
+            show-all-button-id: 1;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            ip_string <=> root.ip_string;
+        }
+        
+        InputFieldGeneric 
+        {
+            name: "Subnet mask (255.255.255.0)";
+            default-text: "Type subnet mask here";
+            
+            guess-button-id: 2;
+            show-button-id: 3;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.subnet_mask_string;
+        }
+
+        InputFieldGeneric 
+        {
+            name: "Wildcard mask (255.255.255.0)";
+            default-text: "Type wildcard mask here";
+            
+            guess-button-id: 4;
+            show-button-id: 5;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.wildcard_string;
+        }
+
+        InputFieldGeneric
+        {
+            name: "Subnet Address (192.168.1.0)";
+            default-text: "Type subnet address here";
+            
+            guess-button-id: 6;
+            show-button-id: 7;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.subnet_address_string;
+        }
+
+        InputFieldGeneric 
+        {
+            name: "Broadcast Address (192.168.1.255)";
+            default-text: "Type broadcast address here";
+            
+            guess-button-id: 8;
+            show-button-id: 9;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.broadcast_address_string;
+        }
+
+        InputFieldGeneric 
+        {
+            name: "First Usable Host (192.168.1.1)";
+            default-text: "Type first usable host here";
+            
+            guess-button-id: 10;
+            show-button-id: 11;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.first_host_string;
+        }
+
+        InputFieldGeneric 
+        {
+            name: "Last Usable Host (192.168.1.254)";
+            default-text: "Type last usable host here";
+            
+            guess-button-id: 12;
+            show-button-id: 13;
+
+            button-id(button_id) => { root.button-id(button_id) };
+            edited_string <=> root.last_host_string;
+        }
+
+        IPClass {
+            button-id(button_id) => { root.button-id(button_id) };
+            button_text <=> root.button_text;
         }
     }
 }

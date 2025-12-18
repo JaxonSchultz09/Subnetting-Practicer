@@ -1,80 +1,96 @@
-import { LineEdit, Button } from "std-widgets.slint";
-export component InputFieldGeneric inherits Window
+import { TextEdit, Button } from "std-widgets.slint";
+
+export component InputFieldGeneric inherits Window 
 {
     in property <string> name;
     in property <string> default-text;
 
     in property <int> guess-button-id;
     in property <int> show-button-id;
+    
+    in-out property <string> edited_string;
 
-    callback button-output(string, int);
+    callback button_id(int);
+    
 
     width: 470px;
     height: 90px;
 
-    Rectangle 
+    background: transparent;
+
+    Text 
     {
-        x: 0px;
-        y: 0px; 
+        x: 10px;
+        y: 5px;
+
+        font-size: 25px;
+        font-weight: 600;
         
-        background: black;
-
-        Text 
-        {
-            x: 10px;
-            y: 5px;
-
-            font-size: 25px;
-            font-weight: 600;
-            
-            vertical-alignment: bottom;
-            
-            text: name;
-        }
+        vertical-alignment: bottom;
         
-        line-edit := LineEdit 
-        {
-            x: 10px;
-            y: 35px;
+        text: name;
+    }
 
-            width: 200px;
-            height: 35px;
-            
-            placeholder-text: default-text;
-        }
+    TextEdit 
+    {
+        x: 10px;
+        y: 35px;
+
+        width: 200px;
+        height: 38px;
         
-        Button 
+        placeholder-text: default-text;
+
+        text <=> edited_string;
+
+        key-pressed(event) => 
         {
-            x: 235px;
-            y: 35px;
-
-            width: 100px;
-            height: 35px;
-
-            text: "Check Guess";
-
-            clicked => 
+            if (event.text == Key.Backspace ||
+                event.text == Key.LeftArrow ||
+                event.text == Key.RightArrow) 
             {
-                root.button-output(line-edit.text, guess-button-id);
-                debug(line-edit.text + ", " + guess-button-id);
-            };
-        }
+                return reject; 
+            }
 
-        Button 
-        {
-            x: 360px;
-            y: 35px;
-
-            width: 100px;
-            height: 35px;
-
-            text: "Show Answer";
-
-            clicked => 
+            if ((event.text >= "0" && event.text <= "9") ||
+                event.text == "." || event.text == "/")
             {
-                root.button-output(line-edit.text, show-button-id);
-                debug(line-edit.text + ", " + guess-button-id);
-            };
+                return reject; 
+            }
+
+            accept;
         }
-    } 
-}
+    }
+    
+    Button 
+    {
+        x: 235px;
+        y: 35px;
+
+        width: 100px;
+        height: 38px;
+
+        text: "Check Guess";
+
+        clicked => 
+        {
+            root.button_id(guess-button-id);
+        };
+    }
+
+    Button 
+    {
+        x: 360px;
+        y: 35px;
+
+        width: 100px;
+        height: 38px;
+
+        text: "Show Answer";
+
+        clicked => 
+        {
+            root.button_id(show-button-id);
+        };
+    }
+} 

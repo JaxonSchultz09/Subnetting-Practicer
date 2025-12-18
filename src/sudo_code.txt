@@ -93,3 +93,12 @@ WINDOW
 |    ___________________                                |
 |   |___________________|                               |
 |_______________________________________________________|
+
+
+#############################################################
+
+Just automatically update input strings
+
+have button return button ID and handle logic using rust
+
+e.g restart the entire slint interface just about

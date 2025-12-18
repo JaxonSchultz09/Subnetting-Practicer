@@ -1,0 +1,90 @@
+import { Button } from "std-widgets.slint";
+export component IPClassButtons inherits Window
+{
+    in-out property <string> button_text;
+
+    callback button-id(int);
+
+    x: 0px;
+    y: 0px;
+    
+    HorizontalLayout {
+        x: 10px;
+        y: 35px;
+
+        spacing: 15px;
+
+        Button 
+        {
+            width: 35px;
+            height: 35px;
+            
+            text: "A";
+            
+            clicked => 
+            {
+                root.button-id(14);
+            }
+        }
+
+        Button 
+        {
+            width: 35px;
+            height: 35px;
+            
+            text: "B";    
+
+            clicked => 
+            {
+                root.button-id(15);
+            }
+        }
+
+        Button 
+        {
+            width: 35px;
+            height: 35px;
+            
+            text: "C";
+                        
+            clicked => 
+            {
+                root.button-id(16);
+            }
+        }
+
+        Button 
+        {
+            width: 35px;
+            height: 35px;
+            
+            text: "D";
+                        
+            clicked => 
+            {
+                root.button-id(17);
+            }
+        }
+
+        Button 
+        {
+            width: 35px;
+            height: 35px;
+            
+            text: "E";
+                        
+            clicked => 
+            {
+                root.button-id(18);
+            }
+        }
+
+        Text 
+        {
+            font-size: 35px;
+            color: white;
+
+            text: "Correct";
+        }
+    }  
+}
