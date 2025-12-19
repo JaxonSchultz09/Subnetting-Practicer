@@ -1,8 +1,6 @@
 import { Button } from "std-widgets.slint";
 export component IPClassButtons inherits Window
 {
-    in-out property <string> button_text;
-
     callback button-id(int);
 
     x: 0px;
@@ -77,14 +75,6 @@ export component IPClassButtons inherits Window
             {
                 root.button-id(18);
             }
-        }
-
-        Text 
-        {
-            font-size: 35px;
-            color: white;
-
-            text: "Correct";
         }
     }  
 }
