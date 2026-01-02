@@ -102,28 +102,28 @@ fn calculate_correct_values (input_vec: Vec<String>) -> Vec<u32>
         ip & cidr,
         ip | !cidr,
 
-            //First Usable host
+        //First Usable host
         match cidr.count_zeros()
         {
             0..=1 => ip & cidr,
             _ => (ip & cidr) + 1
         },
 
-            //Last Usable Host
+        //Last Usable Host
         match cidr.count_zeros()
         {
             0..=1 => (ip & cidr) | (!cidr),
             _ => ((ip & cidr) | (!cidr)) - 1
         },
 
-            //Class
+        //Class
         match ip >> 28
         {
-            0..=127 => 1,
-            128..=191 => 2,
-            192..=223 => 3,
-            224..=239 => 4,
-            _ => 5
+            0b0000..=0b0111 => 1,
+            0b1000..=0b1011 => 2,
+            0b1100..=0b1101 => 3,
+            0b1110          => 4,
+            _               => 5
         }
     ];
 }
@@ -136,8 +136,8 @@ fn check_values_equal(correct_vec: Vec<u32>, input_vec: Vec<u32>, button_id: i32
     {
         match button_id
         {
-            0  => gui.set_ip_string(random_ip().into()),    //Randomize
-            1  =>                                           //Show All
+            0  => gui.set_ip_string(random_ip().into()),                                                                                       //Randomize
+            1  =>                                                                                                                              //Show All
             {
                 gui.set_subnet_mask_string(u32_to_ip(correct_vec[1]).into());
                 gui.set_wildcard_string(u32_to_ip(correct_vec[2]).into());
@@ -169,12 +169,12 @@ fn check_values_equal(correct_vec: Vec<u32>, input_vec: Vec<u32>, button_id: i32
             11 => gui.set_first_host_string(u32_to_ip(correct_vec[5]).into()),                                                                 //Show  First Host
             12 => gui.set_last_host_string(u32_to_ip(compare_values(correct_vec[6], input_vec[6])).into()),         //Check Last Host
             13 => gui.set_last_host_string(u32_to_ip(correct_vec[6]).into()),                                                                  //Show  Last Host
-            14 => gui.set_button_text(compare_class(correct_vec[7], 1).into()),     //Class A
-            15 => gui.set_button_text(compare_class(correct_vec[7], 2).into()),     //Class B
-            16 => gui.set_button_text(compare_class(correct_vec[7], 3).into()),     //Class C
-            17 => gui.set_button_text(compare_class(correct_vec[7], 4).into()),     //Class D
-            18 => gui.set_button_text(compare_class(correct_vec[7], 5).into()),     //Class E
-            _  => gui.set_ip_string("ERROR".into()),    //Incase Error
+            14 => gui.set_button_text(compare_class(correct_vec[7], 1).into()),                                     //Class A
+            15 => gui.set_button_text(compare_class(correct_vec[7], 2).into()),                                     //Class B
+            16 => gui.set_button_text(compare_class(correct_vec[7], 3).into()),                                     //Class C
+            17 => gui.set_button_text(compare_class(correct_vec[7], 4).into()),                                     //Class D
+            18 => gui.set_button_text(compare_class(correct_vec[7], 5).into()),                                     //Class E
+            _  => gui.set_ip_string("ERROR".into()),                                                                                           //Incase Error
         }
     } else 
     {

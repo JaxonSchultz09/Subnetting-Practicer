@@ -1,0 +1,135 @@
+|CLASSFUL IP SUBNETTING
+|
+|Decimal IP -> 192     .168     .1       .10
+|Binary IP  -> 11000000.10101000.00000001.00001010
+|
+|Determine Class
+|
+|Binary   |Range       |Class  |CIDR
+|---------|------------|-------|-------
+|0xxxxxxx |   0 -> 126 |   A   |   8
+|10xxxxxx | 127 -> 191 |   B   |  16
+|110xxxxx | 192 -> 223 |   C   |  24
+|1110xxxx | 224 -> 239 | Multicasting
+|1111xxxx | 240 -> 255 | Research
+|
+|Using the graph above we can determine that our IP address is A class C IP address
+|In a classful address such as above the CIDR is not required to be typed out in decimal notation
+|The CIDR is the number of network bits in our IP address which is the same as our subnet mask
+|
+|Subnet Mask Binary  -> 11111111.11111111.11111111.00000000
+|Subnet Mask Decimal -> 255     .255     .255     .0
+|
+|Our subnet mask consists of 24, 1 bits and the rest are 0
+|In order to get a subnet address we must compare the subnet mask to the IP
+|
+|Subnet Mask Binary     -> 11111111.11111111.11111111.00000000
+|Binary IP              -> 11000000.10101000.00000001.00001010
+|                          ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄
+|Subnet Address Binary  -> 11000000.10101000.00000001.00000000
+|Subnet Address Decimal -> 192     .168     .1       .0
+|
+|In order to get the subnet address we must take the bit of the subnet mask and IP if they are both 1 them the resulting bit in the subnet address will be on
+|
+|Now we can get the first host address by simply just flipping the rightmost bit of the subnet address
+|
+|Subnet Address Binary -> 11000000.10101000.00000001.00000000
+|                         ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄
+|First Host Binary     -> 11000000.10101000.00000001.00000001
+|First Host Decimal    -> 192     .168     .1       .1
+|
+|Now to move on we must get the wildcard mask in order to do this we flip all of the bits in the subnet mask
+|
+|Subnet Mask Binary    -> 11111111.11111111.11111111.00000000
+|Wildcard Mask Binary  -> 00000000.00000000.00000000.11111111
+|Wildcard Mask Decimal -> 0       .0       .0       .255
+|
+|How that we have our wildcard address we can get our broadcast address and last host address
+|First up our broadcast address which we get by combining our subnet address and wildcard mask
+|
+|Subnet Address Binary     -> 11000000.10101000.00000001.00000000
+|Wildcard Mask Binary      -> 00000000.00000000.00000000.11111111
+|                             ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄
+|Broadcast Address Binary  -> 11000000.10101000.00000001.11111111
+|Broadcast Address Decimal -> 192     .168     .1       .255
+|
+|Finally to get our last host address we flip the last bit in the broadcast address
+|
+|Broadcast Address Binary  -> 11000000.10101000.00000001.11111111
+|Last Host Binary          -> 11000000.10101000.00000001.11111110
+|Last Host Decimal         -> 192     .168     .1       .254
+|
+|Now weve gotten all our info we need from our IP address
+|
+|IP Address        -> 192.168.1.10
+|IP Class          -> C
+|Subnet Address    -> 192.168.1.0
+|First Host        -> 192.168.1.1
+|Last Host         -> 192.168.1.254
+|Broadcast Address -> 192.168.1.255
+|
+|BONUS
+|
+|To get the number of hosts our subnet can support we can take our wildarc mask and flip the last bit 
+|In order to get a usable number we ignore the periods and treat it like converting it to a number
+|
+|Wildcard Mask Binary   -> 00000000.00000000.00000000.11111111
+|Supported Hosts Binary -> 00000000.00000000.00000000.11111110
+|Supported Hosts Number -> 254
+=============================================================================================================================================================
+|CLASSLESS IP ROUTING
+|
+|Decimal IP -> 192     .168     .1       .130      /25
+|Binary IP  -> 11000000.10101000.00000001.10000010
+|
+|Now we have a classless IP which has a CIDR that isn't a multiple of 8
+|Our CIDR tells us how many network bits we have so in our IP we use the first 25 bits for the network address
+|For any bit that isnt with the 25 network bits they are turns to 0
+|
+|Binary IP              -> 11000000.10101000.00000001.10000010
+|                          ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄
+|Subnet Address Binary  -> 11000000.10101000.00000001.10000000
+|Subnet Address Decimal -> 192     .168     .1       .128
+|
+|(Above is a condensed version of getting the subnet mask and applying it to the IP)
+|
+|To get the first host of the subnet as we did with the classful IP we just flip the right most bit of the network address on
+|
+|Subnet Address Binary  -> 11000000.10101000.00000001.10000000
+|First Host Binary      -> 11000000.10101000.00000001.10000001
+|First Host Decimal     -> 192     .168     .1       .129
+|
+|Now in order to get the broadcast address for the subnet we must take 32 minus our CIDR which in our case equals 7 so the last 7 bits are our wildcard
+|
+|Subnet Mask Binary    -> 11111111.11111111.11111111.10000000
+|                         ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄
+|Wildcard Mask Binary  -> 00000000.00000000.00000000.01111111
+|Wildcard Mask Decimal -> 0       .0       .0       .127
+|
+|Now we can combine our subnet address and wildcard mask in order to get our broadcast address
+|
+|Subnet Address Binary     -> 11000000.10101000.00000001.10000000
+|Wildcard Mask Binary      -> 00000000.00000000.00000000.01111111
+|                             ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄ ⌄⌄⌄⌄⌄⌄⌄⌄
+|Broadcast Address Binary  -> 11000000.10101000.00000001.11111111
+|Broadcast Address Decimal -> 192     .168     .1       .255
+|
+|Now again to get our broadcast address we go ahead and flip the last bit of the broadcast address
+|
+|Broadcast Address Binary  -> 11000000.10101000.00000001.11111111
+|Last Host Binary          -> 11000000.10101000.00000001.11111110
+|Last Host Decimal         -> 192     .168     .1       .254
+|
+|
+|IP Address        -> 192.168.1.10
+|IP Class          -> C (Use the same table as the classful IP addresses)
+|Subnet Address    -> 192.168.1.128
+|First Host        -> 192.168.1.129
+|Last Host         -> 192.168.1.254
+|Broadcast Address -> 192.168.1.255
+|
+|Additionally you can get your supported hosts the same way
+|
+|Wildcard Mask Binary   -> 00000000.00000000.00000000.01111111
+|Supported Hosts Binary -> 00000000.00000000.00000000.01111110
+|Supported Hosts Number -> 126
