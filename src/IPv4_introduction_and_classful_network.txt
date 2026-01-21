@@ -1,0 +1,62 @@
+IPv4 addresses are seperates into 4 octets of 8 bits each 
+Each octet is seperated by decimal points in a format called dotted decimal notation
+[Insert image like what they have]
+
+An IP address can be of six different "types" class A through E and classes
+The class of an IP address is determined by how many ones lead the first octect
+
+Binary   |Range       |Class  
+---------|------------|-------
+0xxxxxxx |   0 -> 126 |   A   
+10xxxxxx | 128 -> 191 |   B   
+110xxxxx | 192 -> 223 |   C   
+1110xxxx | 224 -> 239 |   D (Multicasting)
+1111xxxx | 240 -> 255 |   E (Research)
+(x's represent 1 or 0)
+[Replace with image]
+
+Notice how 127 is not able to be used according to our chart
+That is because 127.x.x.x (X's represent 0 to 255) is reserved for loopback
+
+Say we have an ip address such as 192.168.0.1 which in binary looks like 11000000.10101000.00000000.00000001
+We isolate the first 8 bits and see that 11000000 looks like class c's 110xxxxx so our 192.168.0.1 IP is a class C address
+
+Now that we know our class we can determine how many network and host octets we have
+A network octet is an octet that within your network is unchangeable without switching to another network
+A host octet is an octect that can be changed within an network to asign IP addresses to devices
+
+ Class | Network/Host Octets | Number of Hosts
+-------|---------------------|---------------------
+   A   |  N.H.H.H            | 16,777,214
+   B   |  N.N.H.H            | 65,534
+   C   |  N.N.N.H            | 254
+   D   |  N/A                |
+   E   |  N/A                |
+(H represents host octets while N represents network octets)
+[Replace with image]
+
+In order to get our number of hosts we take 256 to the power of however many octets are host octets minus two
+For example our IP 192.168.0.1 in class C has one host octet
+Therefore our number of hosts is 256^1 - 2 which is 254 like in the chart above
+
+The reason we subract 2 from our number of hosts is that the very first and very last IP in the class are reserved
+The reserved IP at the beginning of our 192.168.0.1 IP would be 192.168.0.0 and that is our network address
+Now to get our second reserved IP we turn every host octet 255 so for our IP that would make it 192.168.0.255
+This IP is our broadcast address which is what all devices on the network listen to to get information thats for all of them
+
+With that we've gotten all of the info needed for a network
+
+We have our IPs class, network address and broadcast address
+To assign IPs to your network you just have to make sure that the IPs fall between your network address and broadcast address
+
+Now there are private and public IP addresses we need to worry about
+
+IP Address Range        | Purpose
+------------------------|--------------------------------
+10.x.x.x                | Large organization private IPs
+172.16.x.x - 172.31.x.x | Loopback and private routing
+192.168.x.x             | Private networks like at home
+[Replace with image]
+
+These IPs have been introduced over the years in order to extend the lifespan of the IPv4 address scheme
+While its worked great IPv4 has largely been phased out of the civilian world for IPv6

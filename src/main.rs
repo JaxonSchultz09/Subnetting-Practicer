@@ -1,4 +1,4 @@
-use std::{vec};
+use std::vec;
 use rand::Rng;
 
 slint::include_modules!();
@@ -39,7 +39,7 @@ fn main()
             convert_string_to_u32(input_vec[5].clone()),
             convert_string_to_u32(input_vec[6].clone()),
         ];
-        check_values_equal(correct_vec, input_vec, button_id, gui_weak.clone());
+        perform_button_task(correct_vec, input_vec, button_id, gui_weak.clone());
     });
     
     gui.run().unwrap();
@@ -128,7 +128,7 @@ fn calculate_correct_values (input_vec: Vec<String>) -> Vec<u32>
     ];
 }
 
-fn check_values_equal(correct_vec: Vec<u32>, input_vec: Vec<u32>, button_id: i32, gui_weak: slint::Weak<MainWindow>)
+fn perform_button_task(correct_vec: Vec<u32>, input_vec: Vec<u32>, button_id: i32, gui_weak: slint::Weak<MainWindow>)
 {
     let gui = gui_weak.upgrade().unwrap();
 
