@@ -26,7 +26,6 @@ Range      |Class|"Full" Octets
 224 -> 239 |  D  |     N/A
 240 -> 255 |  E  |     N/A
 
-
 Borrowed bits represent the amount of bits in a subnetted octet that are used for the network instead of host
 Using the above charts we can determine using our subnet address that it's a class C with 3 "full" octets
 We represent this by turning all of the network bits on

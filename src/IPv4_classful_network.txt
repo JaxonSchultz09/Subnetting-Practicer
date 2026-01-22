@@ -13,7 +13,6 @@ Binary   |Range       |Class
 1110xxxx | 224 -> 239 |   D (Multicasting)
 1111xxxx | 240 -> 255 |   E (Research)
 (x's represent 1 or 0)
-[Replace with image]
 
 Notice how 127 is not able to be used according to our chart
 That is because 127.x.x.x (X's represent 0 to 255) is reserved for loopback
@@ -33,11 +32,12 @@ A host octet is an octect that can be changed within an network to asign IP addr
    D   |  N/A                |
    E   |  N/A                |
 (H represents host octets while N represents network octets)
-[Replace with image]
 
 In order to get our number of hosts we take 256 to the power of however many octets are host octets minus two
 For example our IP 192.168.0.1 in class C has one host octet
 Therefore our number of hosts is 256^1 - 2 which is 254 like in the chart above
+The reason we subract 2 is because our first available IP address is our network address and our last available IP is our broadcast address
+So we cannot use either address as a host
 
 The reason we subract 2 from our number of hosts is that the very first and very last IP in the class are reserved
 The reserved IP at the beginning of our 192.168.0.1 IP would be 192.168.0.0 and that is our network address
@@ -57,7 +57,6 @@ IP Address Range        | Purpose
 172.16.x.x - 172.31.x.x | Loopback and private routing
 192.168.x.x             | Private networks like at home
 (x's represent 0 to 255)
-[Replace with image]
 
 These IPs have been introduced over the years in order to extend the lifespan of the IPv4 address scheme
 While its worked great IPv4 has largely been phased out of the civilian world for IPv6
