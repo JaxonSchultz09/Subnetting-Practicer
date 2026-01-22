@@ -1,2 +1,37 @@
-TODO
-Write things here
+IPv4 adresses arnt just sperated by network and host octets
+The octets can be divided into subnets
+This is where we start to see network prefixes
+For example 192.168.0.1/26 has a network prefix of /26
+
+The network prefix tells us how many bits are used for the network
+In our example even though its a class C address which normally has 24 bits for the network we have 26
+
+Our example IP 192.168.0.1/26 in binary looks like this 11000000.10101000.00000000.00000001
+
+We use the first 26 bits for the network so in this case its 11000000.10101000.00000000.00xxxxxx
+(x's represent any host bit not used for network address)
+This is our first piece of info our subnet/network address which is 192.168.0.0 in dotted decimal notation
+
+Our next useful piece of information that we get from this is our subnet mask
+
+Borrowed Bits| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+Subnet mask  |128|192|224|240|248|252|254|255
+Total Hosts  |128| 64| 32| 16| 8 | 4 | 2 | 1
+
+Range      |Class|"Full" Octets
+-----------|-----|-------------
+  0 -> 126 |  A  |      1
+128 -> 191 |  B  |      2
+192 -> 223 |  C  |      3
+224 -> 239 |  D  |     N/A
+240 -> 255 |  E  |     N/A
+
+
+Borrowed bits represent the amount of bits in a subnetted octet that are used for the network instead of host
+Using the above charts we can determine using our subnet address that it's a class C with 3 "full" octets
+We represent this by turning all of the network bits on
+In dotted decimal notation this is represented using 255 because a full octet of on bits is equal to 255
+Using this information our subnet mask for our example IP is 255.255.255.192
+
+Going back we can take our subnet address binary (11000000.10101000.00000000.00xxxxxx) and make all the x's ones to get our broadcast adress
+that ends up looking like 11000000.10101000.00000000.00111111 which in dotted decimal is 192.168.0.63

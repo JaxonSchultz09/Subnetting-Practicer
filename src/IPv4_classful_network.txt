@@ -2,7 +2,7 @@ IPv4 addresses are seperates into 4 octets of 8 bits each
 Each octet is seperated by decimal points in a format called dotted decimal notation
 [Insert image like what they have]
 
-An IP address can be of six different "types" class A through E and classes
+An IP address can be of six different "classes" class A through E and classes
 The class of an IP address is determined by how many ones lead the first octect
 
 Binary   |Range       |Class  
@@ -56,6 +56,7 @@ IP Address Range        | Purpose
 10.x.x.x                | Large organization private IPs
 172.16.x.x - 172.31.x.x | Loopback and private routing
 192.168.x.x             | Private networks like at home
+(x's represent 0 to 255)
 [Replace with image]
 
 These IPs have been introduced over the years in order to extend the lifespan of the IPv4 address scheme
